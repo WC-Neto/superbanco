@@ -9,12 +9,12 @@ class Bank:
         self._bankbranch: List['BankBranch'] = []
 
     @property
-    def nome(self):
-        return self._nome
+    def name(self):
+        return self._name
 
-    @nome.setter
-    def nome(self, value):
-        self._nome = value
+    @name.setter
+    def name(self, value):
+        self._name = value
 
     @property
     def cnpj(self):
@@ -25,20 +25,20 @@ class Bank:
         self._cnpj = value
 
     @property
-    def endereco(self):
-        return self._endereco
+    def adress(self):
+        return self._adress
 
-    @endereco.setter
-    def endereco(self, value):
-        self._endereco = value
+    @adress.setter
+    def adress(self, value):
+        self._adress = value
 
     @property
-    def fone(self):
-        return self._fone
+    def phone(self):
+        return self._phone
 
-    @fone.setter
-    def fone(self, value):
-        self._fone = value
+    @phone.setter
+    def phone(self, value):
+        self._phone = value
     
     def add_bankbranch(self, bankbranch: 'BankBranch'):
         self._bankbranch.append(bankbranch)
@@ -93,44 +93,44 @@ class Cliente:
 class Funcionario:
     pass
 
-class Transation:
-    def __init__(self, tipo:str, valor:float, conta: 'Account'):
-        self._tipo = tipo
-        self._valor = valor
-        self._conta = conta
+class Transaction:
+    def __init__(self, typev:str, value:float, account: 'Account'):
+        self._typev = typev
+        self._value = value
+        self._account = account
         self._data = datetime.now()
 
     @property
-    def tipo(self):
-        return self._tipo
+    def typev(self):
+        return self._typev
 
-    @tipo.setter
-    def tipo(self, value):
-        self._tipo = value
-
-    @property
-    def valor(self):
-        return self._valor
-
-    @valor.setter
-    def valor(self, value):
-        self._valor = value
+    @typev.setter
+    def typev(self, value):
+        self._typev = value
 
     @property
-    def conta(self):
-        return self._conta
+    def value(self):
+        return self._value
 
-    @conta.setter
-    def conta(self, value):
-        self._conta = value
+    @value.setter
+    def value(self, value):
+        self._value = value
 
     @property
-    def data(self):
-        return self._data
+    def account(self):
+        return self._account
 
-    @data.setter
-    def data(self, value):
-        self._data = value
+    @account.setter
+    def account(self, value):
+        self._account = value
+
+    @property
+    def date(self):
+        return self._date
+
+    @date.setter
+    def date(self, value):
+        self._date = value
 
 
         
@@ -139,15 +139,15 @@ class Account:
     def __init__(
         self,
         number: str,
-        titular: str,
-        saldo: float,
-        senha: str,
+        holder: str,
+        balance: float,
+        password: str,
     ):
         self._number = number
-        self._titular = titular
-        self._senha = senha
-        self._saldo = saldo
-        self._transacoes: List['Transacao'] = []
+        self._holder = holder
+        self._password = password
+        self._balance = balance
+        self._transactions: List['Transaction'] = []
 
     @property
     def number(self):
@@ -158,81 +158,81 @@ class Account:
         self._number = value
 
     @property
-    def titular(self):
-        return self._titular
+    def holder(self):
+        return self._holder
 
-    @titular.setter
-    def titular(self, value):
-        self._titular = value
-
-    @property
-    def senha(self):
-        return self._senha
-
-    @senha.setter
-    def senha(self, value):
-        self._senha = value
+    @holder.setter
+    def holder(self, value):
+        self._holder = value
 
     @property
-    def saldo(self):
-        return self._saldo
+    def password(self):
+        return self._password
 
-    @saldo.setter
-    def saldo(self, value):
-        self._saldo = value
+    @password.setter
+    def password(self, value):
+        self._password = value
 
-    def autenticar(self, senha: str):
+    @property
+    def balance(self):
+        return self._balance
+
+    @balance.setter
+    def balance(self, value):
+        self._balance = value
+
+    def authenticate(self, password: str):
         pass
     
-    def sacar(self, valor: float):
+    def withdraw(self, value: float):
         pass
 
-    def depositar(self, valor: float):
+    def deposit(self, value: float):
         pass
     
-    def extrato(self):
+    def statement(self):
         pass
 
-    def imprimir_extrato(self):
+    def print_statement(self):
         pass
 
 class CurrentAccount(Account):
-    def __init__(self, number: str, titular: str, saldo: float, senha: str, limite: float):
-        super().__init__(number, titular, saldo, senha)
-        self._limite = limite
-        self._taxa_manutencao = 10.0  # class a, b, c
+    def __init__(self, number: str, holder: str, balance: float, password: str, limit: float):
+        super().__init__(number, holder, balance, password)
+        self._limit = limit
+        self._fee_maintance = 10.0  # class a, b, c
 
     @property
-    def limite(self):
-        return self._limite
+    def limit(self):
+        return self._limit
 
-    @limite.setter
-    def limite(self, value):
-        self._limite = value
-
-    @property
-    def taxa_manutencao(self):
-        return self._taxa_manutencao
-
-    @taxa_manutencao.setter
-    def taxa_manutencao(self, value):
-        self._taxa_manutencao = value
-
-
-class ContaPoupanca(Account):
-    def __init__(self, number: str, titular: str, saldo: float, senha: str, taxa_rendimento: float):
-        super().__init__(number, titular, saldo, senha)
-        self._taxa_rendimento = taxa_rendimento
-        self._data_aniversario = datetime.now().day
+    @limit.setter
+    def limit(self, value):
+        self._limit = value
 
     @property
-    def taxa_rendimento(self):
-        return self._taxa_rendimento
+    def fee_maintance(self):
+        return self._tax_maintance
 
-    @taxa_rendimento.setter
-    def taxa_rendimento(self, value):
-        self._taxa_rendimento = value
+    @fee_maintance.setter
+    def fee_maintance(self, value):
+        self._tax_maintance = value
+
+
+class SavingAccount(Account):
+    def __init__(self, number: str, holder: str, balance: float, password: str, yield_rate: float):
+        super().__init__(number, holder, balance, password)
+        self._yield_rate = yield_rate
+        self._birthday = datetime.now().day
 
     @property
-    def data_aniversario(self):
-        return self._data_aniversario
+    def _yield_rate(self):
+        return self._yield_rate
+
+    @_yield_rate.setter
+    def yield_rate(self, value):
+        self._yield_rate = value
+
+    @property
+    def birthday(self):
+        return self._birthday

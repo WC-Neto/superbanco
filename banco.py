@@ -1,5 +1,23 @@
 from datetime import datetime
 from typing import List
+from abc import ABC, abstractmethod 
+
+class Authenticable(ABC):
+    @abstractmethod
+    def authenticate(self, senha:str)->bool:
+        pass
+
+class Taxable(ABC):
+    @abstractmethod
+    def get_tax_value(self) ->bool :
+        pass
+    
+class Rentable(ABC):
+    @abstractmethod
+    def get_profitability_value(self) ->bool :
+        pass
+    
+
 class Bank:
     def __init__(self, name: str, cnpj: str, adress: str, phone: str):
         self._name = name
@@ -99,6 +117,12 @@ class Transaction:
         self._value = value
         self._account = account
         self._data = datetime.now()
+    
+    def add_transaction(self, description: str, value: float):
+        pass
+        #se valor de deposit for igual ou menor que zero, operação deve explicitar erro
+        #transferencia for maior que o balance em conta erro na transação    
+        #se o withdraw for maior que o balance em conta, erro na transação    
 
     @property
     def typev(self):
@@ -182,19 +206,24 @@ class Account:
         self._balance = value
 
     def authenticate(self, password: str):
-        pass
+        self._password == password
     
     def withdraw(self, value: float):
-        pass
+        self.balance -= value
 
     def deposit(self, value: float):
-        pass
+        self.balance += value
     
-    def statement(self):
-        pass
-
     def print_statement(self):
-        pass
+        header = f""" 
+        === BANK STATEMENT ===
+        ---------------------------------------- 
+        Holder Name: {self._holder}
+        Holder Account: {self._number}
+        Holder Balance: {self._balance}
+        ----------------------------------------
+        """
+        print(header)
 
 class CurrentAccount(Account):
     def __init__(self, number: str, holder: str, balance: float, password: str, limit: float):
@@ -236,3 +265,9 @@ class SavingAccount(Account):
     @property
     def birthday(self):
         return self._birthday
+
+conta01 = Account(1, "Walter", 1.28, "beto")
+
+conta01.deposit(1.72)
+conta01.withdraw(3.0)
+conta01.print_statement()

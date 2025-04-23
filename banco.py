@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 class Authenticable(ABC):
     @abstractmethod
-    def authenticate(self, senha:str)->bool:
+    def authenticate(self, password:str)->bool:
         pass
 
 class Taxable(ABC):
@@ -102,13 +102,13 @@ class BankBranch:
     def name(self, value):
         self._name = value
 
-class Pessoa:
+class Person:
     pass
 
-class Cliente:
+class Customer:
     pass
 
-class Funcionario:
+class Employee:
     pass
 
 class Transaction:
@@ -116,13 +116,7 @@ class Transaction:
         self._typev = typev
         self._value = value
         self._account = account
-        self._data = datetime.now()
-    
-    def add_transaction(self, description: str, value: float):
-        pass
-        #se valor de deposit for igual ou menor que zero, operação deve explicitar erro
-        #transferencia for maior que o balance em conta erro na transação    
-        #se o withdraw for maior que o balance em conta, erro na transação    
+        self._date = datetime.now()
 
     @property
     def typev(self):
@@ -206,24 +200,39 @@ class Account:
         self._balance = value
 
     def authenticate(self, password: str):
-        self._password == password
+        return self._password == password
     
     def withdraw(self, value: float):
-        self.balance -= value
+        if value > self._balance:
+            raise ValueError("Saldo insuficiente")
+        self._balance -= value
+        self._transactions.append(Transaction("WITHDRAW", -value, self))
 
     def deposit(self, value: float):
-        self.balance += value
+        if value <= 0:
+            raise ValueError("Valor do depósito deve ser positivo")
+        self._balance += value
+        self._transactions.append(Transaction("DEPOSIT", value, self))
     
     def print_statement(self):
-        header = f""" 
-        === BANK STATEMENT ===
-        ---------------------------------------- 
-        Holder Name: {self._holder}
-        Holder Account: {self._number}
-        Holder Balance: {self._balance}
-        ----------------------------------------
-        """
-        print(header)
+        if not self._transactions:
+            print(" Nenhuma transação registrada.")
+        else:
+            header = f"""
+            === BANK STATEMENT ===
+            ----------------------------------------
+            Holder: {self._holder}
+            Account: {self._number}
+            Balance: R$ {self._balance:.2f}
+            ----------------------------------------
+            TRANSACTIONS:
+            """
+            print(header)
+            
+            for t in self._transactions:
+                print(f"[{t._date.strftime('%d/%m/%Y %H:%M')}] {t._typev}: R$ {t._value:+.2f}") 
+            
+            print("----------------------------------------")
 
 class CurrentAccount(Account):
     def __init__(self, number: str, holder: str, balance: float, password: str, limit: float):
@@ -266,8 +275,8 @@ class SavingAccount(Account):
     def birthday(self):
         return self._birthday
 
-conta01 = Account(1, "Walter", 1.28, "beto")
+conta01 = Account(1, "Walter", 0, "beto")
 
-conta01.deposit(1.72)
-conta01.withdraw(3.0)
+conta01.deposit(11.0)
+conta01.withdraw(10.0)
 conta01.print_statement()
